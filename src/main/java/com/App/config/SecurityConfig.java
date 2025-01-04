@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,20 +27,30 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
     
-    @Bean
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        
+//        return httpSecurity
+//                .csrf(csrf -> csrf.disable())
+//                .httpBasic(Customizer.withDefaults())
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(http ->{
+//                        http.requestMatchers(HttpMethod.GET,"/auth/hello").permitAll();
+//                        http.requestMatchers(HttpMethod.GET,"/auth/hello-secured").hasAuthority("CREATE");
+//                        http.anyRequest().denyAll();
+//                })
+//                .build();
+//    }
+    
+      @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
+                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(http ->{
-                        http.requestMatchers(HttpMethod.GET,"/auth/hello").permitAll();
-                        http.requestMatchers(HttpMethod.GET,"/auth/hello-secured").hasAuthority("READ");
-                        http.anyRequest().denyAll();
-                })
                 .build();
     }
-    
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         
@@ -51,26 +62,11 @@ public class SecurityConfig {
         
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userDetailServise());
+        provider.setUserDetailsService(null);
         return provider;
     }
     
-    @Bean
-    public UserDetailsService userDetailServise() {
-        List<UserDetails> userDetailsList = new ArrayList<>();
-        userDetailsList.add(User.withUsername("Santiago")
-                .password("1234")
-                .roles("ADMIN")
-                .authorities("READ", "CREATE")
-                .build());
-        
-        userDetailsList.add(User.withUsername("Alejandro")
-                .password("1234")
-                .roles("ADMIN")
-                .authorities( "READ")
-                .build());
-        return  new  InMemoryUserDetailsManager(userDetailsList);
-    }
+   
     
     @Bean
     public PasswordEncoder passwordEncoder() {
