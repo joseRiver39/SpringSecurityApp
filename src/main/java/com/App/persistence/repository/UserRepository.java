@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @author ANTONIO
  */
 @Repository
-public interface UserRepository extends CrudRepository<UserEntity, Long>{
-    
-    Optional<UserEntity> findUserEntityByUserName(String username);
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
+
+    Optional<UserEntity> findUserEntityByUsername(String username);
 }
