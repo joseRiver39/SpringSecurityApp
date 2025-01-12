@@ -1,8 +1,10 @@
-
 package com.App.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,24 +14,31 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/auth")
-@PreAuthorize("denyAll()")
 public class TestAuthController {
-    
-    @GetMapping("/hello")
-    @PreAuthorize("permitAll()")
-    public String hello(){
-     return "Hola mundo";
+
+    @GetMapping("/get")
+
+    public String hellogET() {
+        return "Hola mundo gET";
     }
-    
-    @GetMapping("/hello-secured")
-    @PreAuthorize("hasAuthority('READ')")
-    public String helloSecured(){
-     return "Hola mundo segurida";
+
+    @PostMapping("/post")
+    public String helloPost() {
+        return "Hola mundo Post";
     }
-    
-    @GetMapping("/hello-secured2")
-    @PreAuthorize("hasAuthority('CREATE')")
-    public String helloSecured2(){
-     return "Hola mundo segurida";
+
+    @PutMapping("/put")
+    public String helloPut() {
+        return "Hola mundo Put";
+    }
+
+    @DeleteMapping("/delete")
+    public String helloDelete() {
+        return "Hola mundo Delete";
+    }
+
+    @PatchMapping("/patch")
+    public String helloPatch() {
+        return "Hola mundo Patch";
     }
 }
