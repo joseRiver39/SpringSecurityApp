@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author ANTONIO
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/method")
 public class TestAuthController {
 
     @GetMapping("/get")
